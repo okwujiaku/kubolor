@@ -2,6 +2,8 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { PostCard } from "@/components/blog/PostCard";
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   const [latestPosts, categories] = await Promise.all([
     prisma.post.findMany({

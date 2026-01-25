@@ -6,6 +6,8 @@ import { AffiliateBlock } from "@/components/blog/AffiliateBlock";
 import { AdSlot } from "@/components/blog/AdSlot";
 import { CTABlock } from "@/components/blog/CTABlock";
 
+export const dynamic = "force-dynamic";
+
 type BlogPostPageProps = {
   params: {
     slug: string;

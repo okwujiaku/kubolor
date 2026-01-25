@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { StatsCard } from "@/components/admin/StatsCard";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminDashboardPage() {
   const [totalPosts, draftPosts, publishedPosts] = await Promise.all([
     prisma.post.count(),
