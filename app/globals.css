@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Horizon";
+  src: url("/fonts/horizon.woff2") format("woff2"),
+    url("/fonts/horizon.woff") format("woff");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -13,6 +22,7 @@
     --primary: 222.2 47.4% 11.2%;
     --primary-foreground: 210 40% 98%;
     --border: 214.3 31.8% 91.4%;
+    --font-horizon: "Horizon";
   }
 
   .dark {
@@ -30,6 +40,6 @@
   body {
     @apply bg-background text-foreground;
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "Inter", Arial, Helvetica, sans-serif;
   }
 }

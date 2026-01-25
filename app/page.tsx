@@ -5,48 +5,80 @@ import { PostCard } from "@/components/blog/PostCard";
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const [latestPosts, categories] = await Promise.all([
-    prisma.post.findMany({
-      where: { status: "published" },
-      orderBy: { publishedAt: "desc" },
-      take: 6,
-      include: { category: true },
-    }),
-    prisma.category.findMany({
-      orderBy: { name: "asc" },
-    }),
-  ]);
+  let latestPosts = [];
+  let categories = [];
+
+  try {
+    [latestPosts, categories] = await Promise.all([
+      prisma.post.findMany({
+        where: { status: "published" },
+        orderBy: { publishedAt: "desc" },
+        take: 6,
+        include: { category: true },
+      }),
+      prisma.category.findMany({
+        orderBy: { name: "asc" },
+      }),
+    ]);
+  } catch (error) {
+    console.error("Homepage data fetch failed:", error);
+  }
 
   return (
     <main className="mx-auto flex w-full max-w-7xl flex-col gap-20 px-6 py-16">
       {/* Hero Section */}
-      <section className="text-center space-y-8 py-12">
-        <div className="inline-block rounded-full bg-blue-50 border border-blue-200 px-4 py-2">
-          <p className="text-sm font-medium text-blue-600">
-            AI-Powered Content Platform
-          </p>
-        </div>
-        <h1 style={{ fontFamily: 'Horizon, sans-serif' }} className="text-5xl font-bold tracking-tight text-gray-900 sm:text-6xl lg:text-7xl">
-          AI-powered blogging for<br />
-          <span className="text-blue-600">scalable SEO growth</span>
-        </h1>
-        <p className="mx-auto max-w-2xl text-lg text-gray-600 sm:text-xl">
-          Publish optimized, structured content with full control over your
-          editorial workflow. Built for modern SEO and content marketing.
-        </p>
-        <div className="flex items-center justify-center gap-4 pt-4">
-          <Link 
-            href="/blog" 
-            className="rounded-lg bg-blue-600 px-8 py-3 text-sm font-semibold text-white hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl"
-          >
-            Explore Articles
-          </Link>
-          <Link 
-            href="/admin" 
-            className="rounded-lg border-2 border-blue-600 px-8 py-3 text-sm font-semibold text-blue-600 hover:bg-blue-50 transition-all"
-          >
-            Admin Dashboard
-          </Link>
+      <section className="relative overflow-hidden rounded-3xl bg-slate-900 text-white">
+        <div
+          className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.35),transparent_55%),radial-gradient(circle_at_80%_40%,rgba(14,116,144,0.35),transparent_45%)]"
+          aria-hidden="true"
+        />
+        <div className="relative grid gap-12 px-10 py-16 lg:grid-cols-[1.2fr_0.8fr]">
+          <div className="space-y-6">
+            <p className="inline-flex items-center rounded-full bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-blue-100">
+              The new standard in SEO blogging
+            </p>
+            <h1 className="font-horizon text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+              AI-powered publishing built for
+              <span className="text-blue-300"> growth</span>.
+            </h1>
+            <p className="max-w-xl text-base text-slate-200 sm:text-lg">
+              Kubolor helps you plan, generate, and publish SEO-driven articles
+              with a clean editorial workflow and ready-to-scale infrastructure.
+            </p>
+            <div className="flex flex-wrap items-center gap-4">
+              <Link
+                href="/blog"
+                className="rounded-lg bg-blue-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition hover:bg-blue-400"
+              >
+                Explore Articles
+              </Link>
+              <Link
+                href="/admin"
+                className="rounded-lg border border-white/40 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+              >
+                Admin Dashboard
+              </Link>
+            </div>
+          </div>
+
+          <div className="relative flex items-end justify-center">
+            <div className="relative">
+              <div className="absolute -left-6 top-6 rounded-2xl bg-white px-4 py-3 text-xs font-semibold text-slate-900 shadow-xl">
+                <span className="block text-blue-600">Kubolor says</span>
+                <span className="block max-w-[160px] text-sm font-medium text-slate-800">
+                  Publish smarter, rank faster.
+                </span>
+              </div>
+              <div className="absolute -left-2 top-16 h-4 w-4 rotate-45 bg-white" />
+              <div className="overflow-hidden rounded-3xl border border-white/10 bg-slate-800 shadow-2xl">
+                <img
+                  src="/profile.png"
+                  alt="Kubolor founder"
+                  className="h-[360px] w-[280px] object-cover"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -54,10 +86,17 @@ export default async function HomePage() {
       <section className="space-y-8">
         <div className="flex items-end justify-between border-b-2 border-blue-100 pb-4">
           <div>
-            <h2 style={{ fontFamily: 'Horizon, sans-serif' }} className="text-3xl font-bold text-gray-900">Latest Posts</h2>
-            <p className="mt-1 text-sm text-gray-600">Fresh content from our editorial team</p>
+            <h2 className="font-horizon text-3xl font-bold text-gray-900">
+              Latest Posts
+            </h2>
+            <p className="mt-1 text-sm text-gray-600">
+              Fresh content from our editorial team
+            </p>
           </div>
-          <Link href="/blog" className="text-sm font-medium text-blue-600 hover:text-blue-700">
+          <Link
+            href="/blog"
+            className="text-sm font-medium text-blue-600 hover:text-blue-700"
+          >
             View all →
           </Link>
         </div>
@@ -95,8 +134,12 @@ export default async function HomePage() {
       <section className="space-y-8">
         <div className="flex items-end justify-between border-b-2 border-blue-100 pb-4">
           <div>
-            <h2 style={{ fontFamily: 'Horizon, sans-serif' }} className="text-3xl font-bold text-gray-900">Categories</h2>
-            <p className="mt-1 text-sm text-gray-600">Browse content by topic</p>
+            <h2 className="font-horizon text-3xl font-bold text-gray-900">
+              Categories
+            </h2>
+            <p className="mt-1 text-sm text-gray-600">
+              Browse content by topic
+            </p>
           </div>
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

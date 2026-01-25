@@ -20,31 +20,32 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Horizon&display=swap" rel="stylesheet" />
-      </head>
       <body className={`${inter.className} min-h-screen bg-white text-gray-900 antialiased`}>
-        <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/90">
-          <div className="container mx-auto flex h-16 items-center justify-between px-6">
+        <header className="sticky top-0 z-50 border-b border-blue-100 bg-white/95 backdrop-blur">
+          <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-6">
             <Link href="/" className="flex items-center gap-3">
-              <Image 
-                src="/Kubolor Logo.png" 
-                alt="Kubolor Logo" 
-                width={40} 
+              <Image
+                src="/kubolor-logo.png"
+                alt="Kubolor logo"
+                width={40}
                 height={40}
                 className="rounded-lg"
               />
-              <span style={{ fontFamily: 'Horizon, sans-serif' }} className="text-2xl font-bold text-blue-600">
+              <span className="font-horizon text-2xl font-bold text-blue-600">
                 Kubolor
               </span>
             </Link>
-            <nav className="flex items-center gap-6">
-              <Link href="/blog" className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors">
+            <nav className="flex items-center gap-6 text-sm font-medium">
+              <Link
+                href="/blog"
+                className="text-gray-700 transition-colors hover:text-blue-600"
+              >
                 Blog
               </Link>
-              <Link href="/admin" className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 transition-colors">
+              <Link
+                href="/admin"
+                className="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
+              >
                 Admin
               </Link>
             </nav>
