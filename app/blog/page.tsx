@@ -19,40 +19,54 @@ export default async function BlogListingPage({
   const page = Math.max(Number(searchParams?.page ?? "1"), 1);
   const categorySlug = searchParams?.category;
 
-  const [posts, total, categories] = await Promise.all([
-    prisma.post.findMany({
-      where: {
-        status: "published",
-        category: categorySlug ? { slug: categorySlug } : undefined,
-      },
-      orderBy: { publishedAt: "desc" },
-      take: PAGE_SIZE,
-      skip: (page - 1) * PAGE_SIZE,
-      include: { category: true },
-    }),
-    prisma.post.count({
-      where: {
-        status: "published",
-        category: categorySlug ? { slug: categorySlug } : undefined,
-      },
-    }),
-    prisma.category.findMany({
-      orderBy: { name: "asc" },
-    }),
-  ]);
+  let posts: Array<{
+    id: string;
+    title: string;
+    slug: string;
+    excerpt: string | null;
+    category: { name: string } | null;
+  }> = [];
+  let total = 0;
+  let categories: Array<{ id: string; name: string; slug: string }> = [];
+
+  try {
+    [posts, total, categories] = await Promise.all([
+      prisma.post.findMany({
+        where: {
+          status: "published",
+          category: categorySlug ? { slug: categorySlug } : undefined,
+        },
+        orderBy: { publishedAt: "desc" },
+        take: PAGE_SIZE,
+        skip: (page - 1) * PAGE_SIZE,
+        include: { category: true },
+      }),
+      prisma.post.count({
+        where: {
+          status: "published",
+          category: categorySlug ? { slug: categorySlug } : undefined,
+        },
+      }),
+      prisma.category.findMany({
+        orderBy: { name: "asc" },
+      }),
+    ]);
+  } catch (error) {
+    console.error("Blog listing fetch failed:", error);
+  }
 
   const totalPages = Math.max(Math.ceil(total / PAGE_SIZE), 1);
 
   return (
-    <main className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-6 py-16">
-      <header className="space-y-2">
-        <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">
+    <main className="mx-auto flex w-full max-w-7xl flex-col gap-10 px-6 py-16">
+      <header className="space-y-3">
+        <p className="text-xs uppercase tracking-[0.3em] text-blue-200">
           Blog
         </p>
-        <h1 className="text-4xl font-semibold tracking-tight">
+        <h1 className="font-horizon text-4xl font-semibold tracking-tight text-white">
           Latest SEO insights
         </h1>
-        <p className="text-base text-muted-foreground">
+        <p className="text-base text-slate-300">
           Browse published articles and filter by category.
         </p>
       </header>
@@ -60,8 +74,10 @@ export default async function BlogListingPage({
       <section className="flex flex-wrap gap-3">
         <Link
           href="/blog"
-          className={`rounded-full border px-4 py-1 text-sm ${
-            !categorySlug ? "bg-card" : "text-muted-foreground"
+          className={`rounded-full border px-4 py-1 text-sm transition ${
+            !categorySlug
+              ? "border-blue-400/50 bg-blue-500/20 text-blue-200"
+              : "border-slate-700 text-slate-300 hover:text-blue-200"
           }`}
         >
           All
@@ -70,10 +86,10 @@ export default async function BlogListingPage({
           <Link
             key={category.id}
             href={`/blog?category=${category.slug}`}
-            className={`rounded-full border px-4 py-1 text-sm ${
+            className={`rounded-full border px-4 py-1 text-sm transition ${
               categorySlug === category.slug
-                ? "bg-card"
-                : "text-muted-foreground"
+                ? "border-blue-400/50 bg-blue-500/20 text-blue-200"
+                : "border-slate-700 text-slate-300 hover:text-blue-200"
             }`}
           >
             {category.name}
@@ -82,27 +98,37 @@ export default async function BlogListingPage({
       </section>
 
       <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {posts.map((post) => (
-          <PostCard
-            key={post.id}
-            title={post.title}
-            slug={post.slug}
-            excerpt={post.excerpt}
-            category={post.category?.name}
-          />
-        ))}
+        {posts.length ? (
+          posts.map((post) => (
+            <PostCard
+              key={post.id}
+              title={post.title}
+              slug={post.slug}
+              excerpt={post.excerpt}
+              category={post.category?.name}
+            />
+          ))
+        ) : (
+          <div className="col-span-full rounded-2xl border border-dashed border-slate-700 bg-slate-900/50 p-10 text-center text-sm text-slate-300">
+            No posts found yet.
+          </div>
+        )}
       </section>
 
-      <footer className="flex items-center justify-between text-sm text-muted-foreground">
+      <footer className="flex items-center justify-between text-sm text-slate-400">
         <span>
           Page {page} of {totalPages}
         </span>
         <div className="flex gap-4">
           {page > 1 ? (
-            <Link href={`/blog?page=${page - 1}`}>Previous</Link>
+            <Link href={`/blog?page=${page - 1}`} className="hover:text-blue-200">
+              Previous
+            </Link>
           ) : null}
           {page < totalPages ? (
-            <Link href={`/blog?page=${page + 1}`}>Next</Link>
+            <Link href={`/blog?page=${page + 1}`} className="hover:text-blue-200">
+              Next
+            </Link>
           ) : null}
         </div>
       </footer>

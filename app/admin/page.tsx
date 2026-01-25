@@ -4,17 +4,27 @@ import { StatsCard } from "@/components/admin/StatsCard";
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboardPage() {
-  const [totalPosts, draftPosts, publishedPosts] = await Promise.all([
-    prisma.post.count(),
-    prisma.post.count({ where: { status: "draft" } }),
-    prisma.post.count({ where: { status: "published" } }),
-  ]);
+  let totalPosts = 0;
+  let draftPosts = 0;
+  let publishedPosts = 0;
+
+  try {
+    [totalPosts, draftPosts, publishedPosts] = await Promise.all([
+      prisma.post.count(),
+      prisma.post.count({ where: { status: "draft" } }),
+      prisma.post.count({ where: { status: "published" } }),
+    ]);
+  } catch (error) {
+    console.error("Admin dashboard fetch failed:", error);
+  }
 
   return (
     <section className="space-y-8">
       <header>
-        <h2 className="text-xl font-semibold">Overview</h2>
-        <p className="text-sm text-muted-foreground">
+        <h2 className="font-horizon text-xl font-semibold text-white">
+          Overview
+        </h2>
+        <p className="text-sm text-slate-300">
           Track publishing status and content pipeline.
         </p>
       </header>

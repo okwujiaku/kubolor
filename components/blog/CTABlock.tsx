@@ -12,12 +12,12 @@ export function CTABlock({
   ctaHref,
 }: CTABlockProps) {
   return (
-    <section className="rounded-2xl border bg-card p-8">
-      <h3 className="text-xl font-semibold">{title}</h3>
-      <p className="mt-2 text-sm text-muted-foreground">{description}</p>
+    <section className="rounded-2xl border border-slate-800 bg-slate-900/70 p-8 text-slate-200">
+      <h3 className="text-xl font-semibold text-white">{title}</h3>
+      <p className="mt-2 text-sm text-slate-300">{description}</p>
       <a
         href={ctaHref}
-        className="mt-4 inline-flex text-sm font-medium text-primary hover:underline"
+        className="mt-4 inline-flex text-sm font-medium text-blue-300 hover:text-blue-200"
       >
         {ctaLabel}
       </a>
