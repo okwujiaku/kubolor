@@ -1,12 +1,13 @@
 import Link from "next/link";
+import type { Category, Post } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { PostCard } from "@/components/blog/PostCard";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  let latestPosts = [];
-  let categories = [];
+  let latestPosts: Array<Post & { category: Category | null }> = [];
+  let categories: Category[] = [];
 
   try {
     [latestPosts, categories] = await Promise.all([
