@@ -5,6 +5,9 @@ import { buildPostMetadata } from "@/lib/seo";
 import { AffiliateBlock } from "@/components/blog/AffiliateBlock";
 import { AdSlot } from "@/components/blog/AdSlot";
 import { CTABlock } from "@/components/blog/CTABlock";
+import { clerkClient } from "@clerk/nextjs/server";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export const dynamic = "force-dynamic";
 
@@ -94,6 +97,22 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       return [];
     });
 
+  let authorName = post.author?.email ?? "Unknown author";
+  if (post.authorId) {
+    try {
+      const clerkUser = await clerkClient.users.getUser(post.authorId);
+      const clerkName =
+        [clerkUser.firstName, clerkUser.lastName].filter(Boolean).join(" ") ||
+        clerkUser.username ||
+        clerkUser.primaryEmailAddress?.emailAddress;
+      if (clerkName) {
+        authorName = clerkName;
+      }
+    } catch (error) {
+      console.error("Author lookup failed:", error);
+    }
+  }
+
   return (
     <main className="mx-auto flex w-full max-w-4xl flex-col gap-10 px-6 py-16 text-slate-200">
       <header className="space-y-4">
@@ -107,15 +126,17 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           {post.excerpt ?? "No excerpt provided yet."}
         </p>
         <div className="flex flex-wrap items-center gap-3 text-sm text-slate-400">
-          <span>By {post.author?.email ?? "Unknown author"}</span>
+          <span>By {authorName}</span>
           {post.publishedAt ? (
             <span>{post.publishedAt.toDateString()}</span>
           ) : null}
         </div>
       </header>
 
-      <article className="prose prose-invert max-w-none whitespace-pre-wrap">
-        {post.content}
+      <article className="prose prose-invert max-w-none">
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          {post.content}
+        </ReactMarkdown>
       </article>
 
       <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-4">

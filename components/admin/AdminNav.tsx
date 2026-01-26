@@ -20,6 +20,16 @@ const NAV_ITEMS = [
     description: "Write a draft",
   },
   {
+    href: "/admin/categories",
+    label: "Categories",
+    description: "Manage topics",
+  },
+  {
+    href: "/admin/tags",
+    label: "Tags",
+    description: "Organize keywords",
+  },
+  {
     href: "/admin/ai",
     label: "AI Generator",
     description: "Generate drafts",

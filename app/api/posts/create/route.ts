@@ -59,6 +59,10 @@ export async function POST(request: Request) {
     clerkUser.emailAddresses?.[0]?.emailAddress ??
     clerkUser.primaryEmailAddress?.emailAddress ??
     "unknown@kubolor.local";
+  const name =
+    [clerkUser.firstName, clerkUser.lastName].filter(Boolean).join(" ") ||
+    clerkUser.username ||
+    email.split("@")[0];
 
   const existingUser = await prisma.user.findUnique({
     where: { email },
@@ -71,8 +75,16 @@ export async function POST(request: Request) {
         email,
         password: "clerk",
         role: "admin",
+        name,
       },
     }));
+
+  if (existingUser && !existingUser.name) {
+    await prisma.user.update({
+      where: { id: existingUser.id },
+      data: { name },
+    });
+  }
 
   let resolvedCategoryId = categoryId;
   if (!resolvedCategoryId && categoryName) {

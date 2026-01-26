@@ -2,10 +2,12 @@
 
 import { useMemo, useState } from "react";
 import { PostEditor } from "@/components/admin/PostEditor";
+import { slugify } from "@/lib/slug";
 
 type CategoryOption = {
   id: string;
   name: string;
+  slug: string;
 };
 
 type TagOption = {
@@ -35,15 +37,6 @@ const LENGTH_OPTIONS = [
   { value: "medium", label: "Medium (1200-1500 words)" },
   { value: "long", label: "Long (1800-2200 words)" },
 ] as const;
-
-function slugify(value: string) {
-  return value
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9\\s-]/g, "")
-    .replace(/\\s+/g, "-")
-    .replace(/-+/g, "-");
-}
 
 function buildExcerpt(content: string, maxLength = 160) {
   const text = content.replace(/[#>*_`]/g, "").replace(/\\s+/g, " ").trim();
