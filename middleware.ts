@@ -11,8 +11,13 @@ export default clerkMiddleware((auth, req) => {
   auth().protect();
 
   const { sessionClaims } = auth();
-  const role =
-    sessionClaims?.publicMetadata?.role ?? sessionClaims?.public_metadata?.role;
+  const claims = sessionClaims as
+    | {
+        publicMetadata?: { role?: string };
+        public_metadata?: { role?: string };
+      }
+    | undefined;
+  const role = claims?.publicMetadata?.role ?? claims?.public_metadata?.role;
 
   if (role !== "admin") {
     return NextResponse.redirect(new URL("/", req.url));
