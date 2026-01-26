@@ -21,6 +21,7 @@ export function buildPostMetadata({
   const resolvedTitle = metaTitle ?? title;
   const resolvedDescription = metaDescription ?? excerpt ?? undefined;
   const url = `${getSiteUrl()}/blog/${slug}`;
+  const fallbackImage = "/kubolor-logo.png";
 
   return {
     title: resolvedTitle,
@@ -33,13 +34,13 @@ export function buildPostMetadata({
       description: resolvedDescription,
       url,
       type: "article",
-      images: featuredImage ? [{ url: featuredImage }] : undefined,
+      images: [{ url: featuredImage ?? fallbackImage }],
     },
     twitter: {
-      card: featuredImage ? "summary_large_image" : "summary",
+      card: "summary_large_image",
       title: resolvedTitle,
       description: resolvedDescription,
-      images: featuredImage ? [featuredImage] : undefined,
+      images: [featuredImage ?? fallbackImage],
     },
   };
 }

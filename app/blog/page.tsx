@@ -1,6 +1,36 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { PostCard } from "@/components/blog/PostCard";
+import { getSiteUrl } from "@/lib/site";
+
+export const metadata: Metadata = {
+  title: "Blog",
+  description: "Browse SEO articles, publishing tips, and category insights from Kubolor.",
+  alternates: {
+    canonical: `${getSiteUrl()}/blog`,
+  },
+  openGraph: {
+    title: "Kubolor Blog",
+    description: "Browse SEO articles, publishing tips, and category insights from Kubolor.",
+    url: `${getSiteUrl()}/blog`,
+    type: "website",
+    images: [
+      {
+        url: "/kubolor-logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Kubolor logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kubolor Blog",
+    description: "Browse SEO articles, publishing tips, and category insights from Kubolor.",
+    images: ["/kubolor-logo.png"],
+  },
+};
 
 export const dynamic = "force-dynamic";
 
@@ -8,6 +38,7 @@ type BlogListingPageProps = {
   searchParams?: {
     page?: string;
     category?: string;
+    q?: string;
   };
 };
 
@@ -18,6 +49,7 @@ export default async function BlogListingPage({
 }: BlogListingPageProps) {
   const page = Math.max(Number(searchParams?.page ?? "1"), 1);
   const categorySlug = searchParams?.category;
+  const query = searchParams?.q?.trim();
 
   let posts: Array<{
     id: string;
@@ -35,6 +67,14 @@ export default async function BlogListingPage({
         where: {
           status: "published",
           category: categorySlug ? { slug: categorySlug } : undefined,
+          ...(query
+            ? {
+                OR: [
+                  { title: { contains: query, mode: "insensitive" } },
+                  { excerpt: { contains: query, mode: "insensitive" } },
+                ],
+              }
+            : {}),
         },
         orderBy: { publishedAt: "desc" },
         take: PAGE_SIZE,
@@ -45,6 +85,14 @@ export default async function BlogListingPage({
         where: {
           status: "published",
           category: categorySlug ? { slug: categorySlug } : undefined,
+          ...(query
+            ? {
+                OR: [
+                  { title: { contains: query, mode: "insensitive" } },
+                  { excerpt: { contains: query, mode: "insensitive" } },
+                ],
+              }
+            : {}),
         },
       }),
       prisma.category.findMany({
@@ -121,12 +169,18 @@ export default async function BlogListingPage({
         </span>
         <div className="flex gap-4">
           {page > 1 ? (
-            <Link href={`/blog?page=${page - 1}`} className="hover:text-blue-200">
+            <Link
+              href={`/blog?page=${page - 1}${categorySlug ? `&category=${categorySlug}` : ""}${query ? `&q=${encodeURIComponent(query)}` : ""}`}
+              className="hover:text-blue-200"
+            >
               Previous
             </Link>
           ) : null}
           {page < totalPages ? (
-            <Link href={`/blog?page=${page + 1}`} className="hover:text-blue-200">
+            <Link
+              href={`/blog?page=${page + 1}${categorySlug ? `&category=${categorySlug}` : ""}${query ? `&q=${encodeURIComponent(query)}` : ""}`}
+              className="hover:text-blue-200"
+            >
               Next
             </Link>
           ) : null}

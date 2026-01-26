@@ -1,9 +1,42 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import type { Category, Post } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { PostCard } from "@/components/blog/PostCard";
+import { getSiteUrl } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "AI-powered publishing built for growth",
+  description:
+    "Kubolor helps you plan, generate, and publish SEO-driven articles with a clean editorial workflow and ready-to-scale infrastructure.",
+  alternates: {
+    canonical: getSiteUrl(),
+  },
+  openGraph: {
+    title: "AI-powered publishing built for growth",
+    description:
+      "Kubolor helps you plan, generate, and publish SEO-driven articles with a clean editorial workflow and ready-to-scale infrastructure.",
+    url: getSiteUrl(),
+    type: "website",
+    images: [
+      {
+        url: "/kubolor-logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Kubolor logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "AI-powered publishing built for growth",
+    description:
+      "Kubolor helps you plan, generate, and publish SEO-driven articles with a clean editorial workflow and ready-to-scale infrastructure.",
+    images: ["/kubolor-logo.png"],
+  },
+};
 
 export default async function HomePage() {
   let latestPosts: Array<Post & { category: Category | null }> = [];
@@ -29,10 +62,6 @@ export default async function HomePage() {
     <main className="mx-auto flex w-full max-w-7xl flex-col gap-20 px-6 py-16">
       {/* Hero Section */}
       <section className="relative overflow-hidden rounded-3xl bg-slate-900 text-white">
-        <div
-          className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.35),transparent_55%),radial-gradient(circle_at_80%_40%,rgba(14,116,144,0.35),transparent_45%)]"
-          aria-hidden="true"
-        />
         <div className="relative grid gap-12 px-10 py-16 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="space-y-6">
             <p className="inline-flex items-center rounded-full bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-blue-100">
@@ -85,18 +114,18 @@ export default async function HomePage() {
 
       {/* Latest Posts Section */}
       <section className="space-y-8">
-        <div className="flex items-end justify-between border-b-2 border-blue-100 pb-4">
+        <div className="flex items-end justify-between border-b border-slate-800 pb-4">
           <div>
-            <h2 className="font-horizon text-3xl font-bold text-gray-900">
+            <h2 className="font-horizon text-3xl font-bold text-white">
               Latest Posts
             </h2>
-            <p className="mt-1 text-sm text-gray-600">
+            <p className="mt-1 text-sm text-slate-400">
               Fresh content from our editorial team
             </p>
           </div>
           <Link
             href="/blog"
-            className="text-sm font-medium text-blue-600 hover:text-blue-700"
+            className="text-sm font-medium text-blue-300 hover:text-blue-200"
           >
             View all →
           </Link>
@@ -113,16 +142,16 @@ export default async function HomePage() {
               />
             ))
           ) : (
-            <div className="col-span-full rounded-2xl border-2 border-dashed border-blue-200 bg-blue-50/30 p-16 text-center">
-              <div className="mx-auto w-fit rounded-full bg-blue-100 p-4 mb-4">
-                <svg className="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="col-span-full rounded-2xl border border-dashed border-blue-400/40 bg-slate-900/50 p-16 text-center">
+              <div className="mx-auto mb-4 w-fit rounded-full bg-blue-500/10 p-4">
+                <svg className="h-8 w-8 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                 </svg>
               </div>
-              <p className="font-medium text-gray-900">No published posts yet</p>
-              <p className="mt-1 text-sm text-gray-600">
+              <p className="font-medium text-white">No published posts yet</p>
+              <p className="mt-1 text-sm text-slate-400">
                 Create one in the{" "}
-                <Link href="/admin" className="font-medium text-blue-600 hover:text-blue-700">
+                <Link href="/admin" className="font-medium text-blue-300 hover:text-blue-200">
                   admin dashboard
                 </Link>
               </p>
@@ -133,12 +162,12 @@ export default async function HomePage() {
 
       {/* Categories Section */}
       <section className="space-y-8">
-        <div className="flex items-end justify-between border-b-2 border-blue-100 pb-4">
+        <div className="flex items-end justify-between border-b border-slate-800 pb-4">
           <div>
-            <h2 className="font-horizon text-3xl font-bold text-gray-900">
+            <h2 className="font-horizon text-3xl font-bold text-white">
               Categories
             </h2>
-            <p className="mt-1 text-sm text-gray-600">
+            <p className="mt-1 text-sm text-slate-400">
               Browse content by topic
             </p>
           </div>
@@ -149,16 +178,16 @@ export default async function HomePage() {
               <Link
                 key={category.id}
                 href={`/blog?category=${category.slug}`}
-                className="group rounded-xl border-2 border-blue-100 bg-white px-6 py-8 text-center font-medium hover:border-blue-600 hover:bg-blue-50 transition-all shadow-sm hover:shadow-md"
+                className="group rounded-xl border border-slate-800 bg-slate-900/60 px-6 py-8 text-center font-medium shadow-lg shadow-slate-900/30 transition hover:border-blue-400/60 hover:bg-slate-900"
               >
-                <span className="text-gray-900 group-hover:text-blue-600 transition-colors">
+                <span className="text-white transition-colors group-hover:text-blue-300">
                   {category.name}
                 </span>
               </Link>
             ))
           ) : (
-            <div className="col-span-full rounded-2xl border-2 border-dashed border-blue-200 bg-blue-50/30 p-12 text-center">
-              <p className="text-sm text-gray-600">
+            <div className="col-span-full rounded-2xl border border-dashed border-blue-400/40 bg-slate-900/50 p-12 text-center">
+              <p className="text-sm text-slate-400">
                 No categories yet. Create them in the database.
               </p>
             </div>

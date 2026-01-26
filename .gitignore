@@ -5,3 +5,4 @@ node_modules
 .vercel
 prisma/dev.db
 dist
+.env*.local

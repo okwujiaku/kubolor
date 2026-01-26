@@ -1,8 +1,17 @@
 import { NextResponse } from "next/server";
 import { generateSEOArticle } from "@/lib/ai";
 import { prisma } from "@/lib/prisma";
+import { requireAdminApi } from "@/lib/auth";
 
 export async function POST(request: Request) {
+  const adminCheck = await requireAdminApi();
+  if (!adminCheck.ok) {
+    return NextResponse.json(
+      { error: adminCheck.error },
+      { status: adminCheck.status }
+    );
+  }
+
   const body = await request.json();
   const { topic, keywords, tone, length } = body ?? {};
 
