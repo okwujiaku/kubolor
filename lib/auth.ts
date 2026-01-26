@@ -14,8 +14,13 @@ export async function getAdminStatus(): Promise<AdminStatus> {
     return { isSignedIn: false, isAdmin: false, userId: null };
   }
 
-  const roleFromClaims =
-    sessionClaims?.publicMetadata?.role ?? sessionClaims?.public_metadata?.role;
+  const claims = sessionClaims as
+    | {
+        publicMetadata?: { role?: string };
+        public_metadata?: { role?: string };
+      }
+    | undefined;
+  const roleFromClaims = claims?.publicMetadata?.role ?? claims?.public_metadata?.role;
 
   if (roleFromClaims === "admin") {
     return { isSignedIn: true, isAdmin: true, userId };
