@@ -13,15 +13,15 @@
 
 @layer base {
   :root {
-    --background: 222 47% 10%;
-    --foreground: 210 40% 98%;
-    --card: 222 47% 10%;
-    --card-foreground: 210 40% 98%;
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 70%;
+    --background: 20 38% 98%;
+    --foreground: 222 32% 16%;
+    --card: 18 35% 97%;
+    --card-foreground: 222 32% 16%;
+    --muted: 18 25% 92%;
+    --muted-foreground: 215 16% 45%;
     --primary: 210 100% 56%;
     --primary-foreground: 210 40% 98%;
-    --border: 217 33% 20%;
+    --border: 18 18% 88%;
     --font-horizon: "Horizon";
   }
 
@@ -41,16 +41,11 @@
     @apply bg-background text-foreground;
     margin: 0;
     font-family: var(--font-sans), "Inter", Arial, Helvetica, sans-serif;
-    background-image: radial-gradient(
-        circle at 20% 20%,
-        rgba(59, 130, 246, 0.35),
-        transparent 55%
-      ),
-      radial-gradient(
-        circle at 80% 40%,
-        rgba(14, 116, 144, 0.35),
-        transparent 45%
-      );
+    background-image:
+      radial-gradient(circle at 12% 18%, rgba(252, 211, 207, 0.45), transparent 20%),
+      radial-gradient(circle at 72% 22%, rgba(203, 213, 255, 0.35), transparent 22%),
+      radial-gradient(circle at 28% 75%, rgba(209, 250, 229, 0.35), transparent 24%),
+      radial-gradient(circle at 85% 78%, rgba(254, 240, 138, 0.28), transparent 18%);
     background-attachment: fixed;
   }
 }

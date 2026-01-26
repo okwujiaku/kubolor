@@ -111,7 +111,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body
-          className={`${jakarta.variable} min-h-screen bg-slate-900 text-slate-100 antialiased`}
+          className={`${jakarta.variable} min-h-screen bg-[#FDF8F5] text-slate-900 antialiased`}
         >
           <Script
             id="structured-data"
@@ -129,10 +129,10 @@ export default function RootLayout({
             }}
           />
           <header className="sticky top-0 z-50">
-            <div className="border-b border-slate-800/60 bg-slate-900/70 backdrop-blur">
+            <div className="border-b border-rose-100/70 bg-[#FDF8F5]/80 backdrop-blur">
               <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-6 px-6 py-4">
                 <Link href="/" className="flex items-center gap-3">
-                  <span className="font-horizon text-4xl font-extrabold italic tracking-tight text-slate-100 sm:text-5xl">
+                  <span className="font-horizon text-4xl font-extrabold italic tracking-tight text-slate-900 sm:text-5xl">
                     Kubolor
                   </span>
                 </Link>
@@ -146,7 +146,7 @@ export default function RootLayout({
                     type="search"
                     name="q"
                     placeholder="Search..."
-                    className="w-full rounded-md border border-slate-700 bg-slate-950/80 px-5 py-3 text-base text-slate-100 placeholder:text-slate-400 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400/30"
+                    className="w-full rounded-md border border-rose-100 bg-white/80 px-5 py-3 text-base text-slate-700 placeholder:text-slate-400 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400/20"
                   />
                   <button
                     type="submit"
@@ -169,7 +169,7 @@ export default function RootLayout({
                 </form>
               </div>
             </div>
-            <div className="border-b border-slate-800/60 bg-slate-900/80">
+            <div className="border-b border-rose-100/70 bg-[#FDF8F5]/90">
               <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-6 px-6 py-3">
                 <div className="flex items-center gap-3">
                   <a
@@ -241,13 +241,13 @@ export default function RootLayout({
                 <nav className="flex items-center gap-8 text-sm font-semibold">
                   <Link
                     href="/"
-                    className="text-slate-200 transition-colors hover:text-blue-200"
+                    className="text-slate-700 transition-colors hover:text-blue-600"
                   >
                     Home
                   </Link>
                   <Link
                     href="/blog"
-                    className="text-slate-200 transition-colors hover:text-blue-200"
+                    className="text-slate-700 transition-colors hover:text-blue-600"
                   >
                     Blog
                   </Link>

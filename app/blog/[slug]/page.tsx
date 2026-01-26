@@ -70,12 +70,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   if (!post) {
     return (
-      <main className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-6 py-16 text-slate-200">
-        <h1 className="font-horizon text-3xl text-white">Post unavailable</h1>
-        <p className="text-slate-300">
+      <main className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-6 py-16 text-slate-700">
+        <h1 className="font-horizon text-3xl text-slate-900">Post unavailable</h1>
+        <p className="text-slate-600">
           We could not load this article right now. Please try again later.
         </p>
-        <Link href="/blog" className="text-blue-300 hover:text-blue-200">
+        <Link href="/blog" className="text-blue-600 hover:text-blue-500">
           Back to blog
         </Link>
       </main>
@@ -114,18 +114,18 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   }
 
   return (
-    <main className="mx-auto flex w-full max-w-4xl flex-col gap-10 px-6 py-16 text-slate-200">
+    <main className="mx-auto flex w-full max-w-4xl flex-col gap-10 px-6 py-16 text-slate-700">
       <header className="space-y-4">
-        <p className="text-xs uppercase tracking-[0.3em] text-blue-200">
+        <p className="text-xs uppercase tracking-[0.3em] text-blue-600">
           {post.category?.name ?? "Uncategorized"}
         </p>
-        <h1 className="font-horizon text-4xl font-semibold tracking-tight text-white">
+        <h1 className="font-horizon text-4xl font-semibold tracking-tight text-slate-900">
           {post.title}
         </h1>
-        <p className="text-base text-slate-300">
+        <p className="text-base text-slate-600">
           {post.excerpt ?? "No excerpt provided yet."}
         </p>
-        <div className="flex flex-wrap items-center gap-3 text-sm text-slate-400">
+        <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500">
           <span>By {authorName}</span>
           {post.publishedAt ? (
             <span>{post.publishedAt.toDateString()}</span>
@@ -133,13 +133,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         </div>
       </header>
 
-      <article className="prose prose-invert max-w-none">
+      <article className="prose max-w-none">
         <ReactMarkdown remarkPlugins={[remarkGfm]}>
           {post.content}
         </ReactMarkdown>
       </article>
 
-      <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-4">
+      <div className="rounded-2xl border border-rose-100 bg-white/70 p-4">
         <AdSlot />
       </div>
 
@@ -157,22 +157,22 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       />
 
       <section className="space-y-4">
-        <h2 className="font-horizon text-2xl font-semibold text-white">
+        <h2 className="font-horizon text-2xl font-semibold text-slate-900">
           Related posts
         </h2>
         <div className="grid gap-6 md:grid-cols-3">
           {relatedPosts.map((related) => (
             <div
               key={related.id}
-              className="rounded-2xl border border-slate-800 bg-slate-900/60 p-4"
+              className="rounded-2xl border border-rose-100 bg-white/70 p-4"
             >
               <Link
                 href={`/blog/${related.slug}`}
-                className="text-sm font-semibold text-white hover:text-blue-300"
+                className="text-sm font-semibold text-slate-900 hover:text-blue-600"
               >
                 {related.title}
               </Link>
-              <p className="mt-2 text-xs text-slate-400">
+              <p className="mt-2 text-xs text-slate-500">
                 {related.excerpt ?? "No excerpt available."}
               </p>
             </div>

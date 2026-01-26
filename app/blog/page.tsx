@@ -108,13 +108,13 @@ export default async function BlogListingPage({
   return (
     <main className="mx-auto flex w-full max-w-7xl flex-col gap-10 px-6 py-16">
       <header className="space-y-3">
-        <p className="text-xs uppercase tracking-[0.3em] text-blue-200">
+        <p className="text-xs uppercase tracking-[0.3em] text-blue-600">
           Blog
         </p>
-        <h1 className="font-horizon text-4xl font-semibold tracking-tight text-white">
+        <h1 className="font-horizon text-4xl font-semibold tracking-tight text-slate-900">
           Latest SEO insights
         </h1>
-        <p className="text-base text-slate-300">
+        <p className="text-base text-slate-600">
           Browse published articles and filter by category.
         </p>
       </header>
@@ -124,8 +124,8 @@ export default async function BlogListingPage({
           href="/blog"
           className={`rounded-full border px-4 py-1 text-sm transition ${
             !categorySlug
-              ? "border-blue-400/50 bg-blue-500/20 text-blue-200"
-              : "border-slate-700 text-slate-300 hover:text-blue-200"
+              ? "border-blue-200 bg-blue-50 text-blue-600"
+              : "border-rose-100 text-slate-600 hover:text-blue-600"
           }`}
         >
           All
@@ -136,8 +136,8 @@ export default async function BlogListingPage({
             href={`/blog?category=${category.slug}`}
             className={`rounded-full border px-4 py-1 text-sm transition ${
               categorySlug === category.slug
-                ? "border-blue-400/50 bg-blue-500/20 text-blue-200"
-                : "border-slate-700 text-slate-300 hover:text-blue-200"
+                ? "border-blue-200 bg-blue-50 text-blue-600"
+                : "border-rose-100 text-slate-600 hover:text-blue-600"
             }`}
           >
             {category.name}
@@ -157,13 +157,13 @@ export default async function BlogListingPage({
             />
           ))
         ) : (
-          <div className="col-span-full rounded-2xl border border-dashed border-slate-700 bg-slate-900/50 p-10 text-center text-sm text-slate-300">
+          <div className="col-span-full rounded-2xl border border-dashed border-rose-200 bg-white/70 p-10 text-center text-sm text-slate-600">
             No posts found yet.
           </div>
         )}
       </section>
 
-      <footer className="flex items-center justify-between text-sm text-slate-400">
+      <footer className="flex items-center justify-between text-sm text-slate-500">
         <span>
           Page {page} of {totalPages}
         </span>
@@ -171,7 +171,7 @@ export default async function BlogListingPage({
           {page > 1 ? (
             <Link
               href={`/blog?page=${page - 1}${categorySlug ? `&category=${categorySlug}` : ""}${query ? `&q=${encodeURIComponent(query)}` : ""}`}
-              className="hover:text-blue-200"
+              className="hover:text-blue-600"
             >
               Previous
             </Link>
@@ -179,7 +179,7 @@ export default async function BlogListingPage({
           {page < totalPages ? (
             <Link
               href={`/blog?page=${page + 1}${categorySlug ? `&category=${categorySlug}` : ""}${query ? `&q=${encodeURIComponent(query)}` : ""}`}
-              className="hover:text-blue-200"
+              className="hover:text-blue-600"
             >
               Next
             </Link>
