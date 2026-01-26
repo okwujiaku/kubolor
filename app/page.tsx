@@ -4,6 +4,7 @@ import type { Category, Post } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { PostCard } from "@/components/blog/PostCard";
 import { getSiteUrl } from "@/lib/site";
+import { getAdminStatus } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -41,9 +42,10 @@ export const metadata: Metadata = {
 export default async function HomePage() {
   let latestPosts: Array<Post & { category: Category | null }> = [];
   let categories: Category[] = [];
+  let isAdmin = false;
 
   try {
-    [latestPosts, categories] = await Promise.all([
+    const results = await Promise.all([
       prisma.post.findMany({
         where: { status: "published" },
         orderBy: { publishedAt: "desc" },
@@ -53,7 +55,10 @@ export default async function HomePage() {
       prisma.category.findMany({
         orderBy: { name: "asc" },
       }),
+      getAdminStatus(),
     ]);
+    [latestPosts, categories] = results;
+    isAdmin = results[2].isAdmin;
   } catch (error) {
     console.error("Homepage data fetch failed:", error);
   }
@@ -82,12 +87,14 @@ export default async function HomePage() {
               >
                 Explore Articles
               </Link>
-              <Link
-                href="/admin"
-                className="rounded-lg border border-white/40 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
-              >
-                Admin Dashboard
-              </Link>
+              {isAdmin ? (
+                <Link
+                  href="/admin"
+                  className="rounded-lg border border-white/40 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+                >
+                  Admin Dashboard
+                </Link>
+              ) : null}
             </div>
           </div>
 
