@@ -19,7 +19,7 @@ export default clerkMiddleware((auth, req) => {
     | undefined;
   const role = claims?.publicMetadata?.role ?? claims?.public_metadata?.role;
 
-  if (role !== "admin") {
+  if (role && role !== "admin") {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
