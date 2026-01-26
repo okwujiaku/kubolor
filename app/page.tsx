@@ -64,9 +64,23 @@ export default async function HomePage() {
   }
 
   return (
-    <main className="mx-auto flex w-full max-w-7xl flex-col gap-20 px-6 py-16">
+    <main className="relative mx-auto flex w-full max-w-7xl flex-col gap-20 px-6 pb-16 pt-8 sprinkle-page">
+      <div className="pointer-events-none absolute inset-0 -z-10 opacity-25">
+        <div className="absolute left-[6%] top-[8%] h-2 w-2 rounded-full bg-rose-300/80" />
+        <div className="absolute left-[18%] top-[18%] h-1.5 w-1.5 rounded-full bg-blue-300/80" />
+        <div className="absolute left-[34%] top-[6%] h-2 w-2 rounded-full bg-amber-300/80" />
+        <div className="absolute left-[58%] top-[12%] h-1.5 w-1.5 rounded-full bg-emerald-300/80" />
+        <div className="absolute right-[12%] top-[10%] h-2 w-2 rounded-full bg-fuchsia-300/80" />
+        <div className="absolute left-[8%] top-[46%] h-1.5 w-1.5 rounded-full bg-sky-300/80" />
+        <div className="absolute left-[28%] top-[56%] h-2 w-2 rounded-full bg-orange-300/80" />
+        <div className="absolute right-[20%] top-[42%] h-1.5 w-1.5 rounded-full bg-rose-300/80" />
+        <div className="absolute left-[12%] bottom-[18%] h-2 w-2 rounded-full bg-yellow-300/80" />
+        <div className="absolute left-[44%] bottom-[10%] h-1.5 w-1.5 rounded-full bg-emerald-300/80" />
+        <div className="absolute right-[18%] bottom-[14%] h-2 w-2 rounded-full bg-blue-300/80" />
+        <div className="absolute right-[6%] bottom-[22%] h-1.5 w-1.5 rounded-full bg-fuchsia-300/80" />
+      </div>
       {/* Hero Section */}
-      <section className="relative overflow-hidden rounded-3xl border border-rose-100 bg-white/80 text-slate-900 shadow-[0_35px_80px_-50px_rgba(15,23,42,0.35)]">
+      <section className="relative overflow-hidden rounded-3xl border border-rose-100 bg-white/80 text-slate-900 shadow-[0_35px_80px_-50px_rgba(15,23,42,0.35)] sprinkle-section sprinkle-card">
         <div className="absolute inset-0 opacity-60">
           <div className="absolute left-6 top-6 h-2 w-2 rounded-full bg-rose-200" />
           <div className="absolute right-12 top-10 h-2 w-2 rounded-full bg-blue-200" />
@@ -106,13 +120,13 @@ export default async function HomePage() {
 
           <div className="relative flex items-end justify-center">
             <div className="relative">
-              <div className="absolute -left-10 top-4 rounded-3xl border-2 border-slate-200 bg-white px-4 py-3 text-xs font-semibold text-slate-800 shadow-[0_20px_40px_-25px_rgba(15,23,42,0.45)]">
+              <div className="absolute -left-28 top-8 z-10 w-[220px] rounded-[28px] border border-slate-200 bg-white px-5 py-4 text-xs font-semibold text-slate-800 shadow-[0_18px_36px_-24px_rgba(15,23,42,0.45)]">
                 <span className="block text-blue-600">Kubolor says</span>
-                <span className="block max-w-[180px] text-sm font-medium text-slate-700">
+                <span className="mt-1 block text-sm font-medium text-slate-700">
                   Publish smarter, rank faster.
                 </span>
-                <div className="absolute -bottom-3 left-6 h-4 w-4 rounded-full border-2 border-slate-200 bg-white" />
-                <div className="absolute -bottom-6 left-3 h-2.5 w-2.5 rounded-full border-2 border-slate-200 bg-white" />
+                <div className="absolute -right-4 top-[62%] h-5 w-8 rotate-12 rounded-[999px] border border-slate-200 bg-white shadow-[0_8px_16px_-10px_rgba(15,23,42,0.45)]" />
+                <div className="absolute -right-7 top-[70%] h-3.5 w-3.5 rounded-full border border-slate-200 bg-white shadow-[0_8px_16px_-10px_rgba(15,23,42,0.45)]" />
               </div>
               <div className="overflow-hidden rounded-3xl border border-rose-100 bg-white shadow-2xl">
                 <img
@@ -127,7 +141,7 @@ export default async function HomePage() {
       </section>
 
       {/* Latest Posts Section */}
-      <section className="space-y-8">
+      <section className="space-y-8 sprinkle-section">
         <div className="flex items-end justify-between border-b border-rose-100 pb-4">
           <div>
             <h2 className="font-horizon text-3xl font-bold text-slate-900">

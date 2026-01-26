@@ -48,4 +48,47 @@
       radial-gradient(circle at 85% 78%, rgba(254, 240, 138, 0.28), transparent 18%);
     background-attachment: fixed;
   }
+
+.sprinkle-page,
+.sprinkle-section,
+.sprinkle-card {
+  position: relative;
+}
+
+.sprinkle-card {
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.sprinkle-page::before,
+.sprinkle-section::before,
+.sprinkle-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background-image: url("/sprinkles.svg");
+  background-repeat: repeat;
+  background-position: center;
+  mix-blend-mode: normal;
+  opacity: var(--sprinkle-opacity, 0.12);
+  background-size: var(--sprinkle-size, 1200px);
+  mask-image: radial-gradient(circle at center, transparent 0%, transparent 45%, black 75%);
+}
+
+.sprinkle-page::before {
+  --sprinkle-opacity: 0.2;
+  --sprinkle-size: 1400px;
+}
+
+.sprinkle-section::before {
+  --sprinkle-opacity: 0.28;
+  --sprinkle-size: 1100px;
+}
+
+.sprinkle-card::before {
+  --sprinkle-opacity: 0.36;
+  --sprinkle-size: 900px;
+}
 }
