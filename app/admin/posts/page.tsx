@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { PostActions } from "@/components/admin/PostActions";
 
 export const dynamic = "force-dynamic";
 
@@ -9,6 +10,7 @@ export default async function AdminPostsPage() {
     title: string;
     status: string;
     updatedAt: Date;
+    publishedAt: Date | null;
     category: { name: string } | null;
   }> = [];
 
@@ -40,7 +42,7 @@ export default async function AdminPostsPage() {
         </Link>
       </header>
 
-      <div className="overflow-hidden rounded-2xl border border-slate-800">
+      <div className="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/60">
         <table className="w-full text-left text-sm">
           <thead className="bg-slate-900/70 text-xs uppercase text-slate-400">
             <tr>
@@ -48,6 +50,7 @@ export default async function AdminPostsPage() {
               <th className="px-4 py-3">Status</th>
               <th className="px-4 py-3">Category</th>
               <th className="px-4 py-3">Updated</th>
+              <th className="px-4 py-3 text-right">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -61,9 +64,24 @@ export default async function AdminPostsPage() {
                     >
                       {post.title}
                     </Link>
+                    {post.publishedAt ? (
+                      <p className="mt-1 text-xs text-slate-400">
+                        Published {post.publishedAt.toDateString()}
+                      </p>
+                    ) : null}
                   </td>
-                  <td className="px-4 py-3 capitalize text-slate-300">
-                    {post.status}
+                  <td className="px-4 py-3">
+                    <span
+                      className={`rounded-full border px-3 py-1 text-xs capitalize ${
+                        post.status === "published"
+                          ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-200"
+                          : post.status === "draft"
+                            ? "border-yellow-500/40 bg-yellow-500/10 text-yellow-200"
+                            : "border-slate-600/40 bg-slate-800/60 text-slate-300"
+                      }`}
+                    >
+                      {post.status}
+                    </span>
                   </td>
                   <td className="px-4 py-3 text-slate-300">
                     {post.category?.name ?? "—"}
@@ -71,12 +89,15 @@ export default async function AdminPostsPage() {
                   <td className="px-4 py-3 text-slate-400">
                     {post.updatedAt.toDateString()}
                   </td>
+                  <td className="px-4 py-3 text-right">
+                    <PostActions postId={post.id} status={post.status} />
+                  </td>
                 </tr>
               ))
             ) : (
               <tr>
                 <td
-                  colSpan={4}
+                  colSpan={5}
                   className="px-4 py-8 text-center text-sm text-slate-400"
                 >
                   No posts yet.

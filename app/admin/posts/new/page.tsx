@@ -1,7 +1,17 @@
-export default function AdminNewPostPage() {
+import { prisma } from "@/lib/prisma";
+import { PostEditorShell } from "@/components/admin/PostEditorShell";
+
+export const dynamic = "force-dynamic";
+
+export default async function AdminNewPostPage() {
+  const [categories, tags] = await Promise.all([
+    prisma.category.findMany({ orderBy: { name: "asc" } }),
+    prisma.tag.findMany({ orderBy: { name: "asc" } }),
+  ]);
+
   return (
     <section className="space-y-6">
-      <header>
+      <header className="space-y-2">
         <h2 className="font-horizon text-xl font-semibold text-white">
           Create new post
         </h2>
@@ -9,11 +19,7 @@ export default function AdminNewPostPage() {
           Draft a new article and save it as a draft or publish immediately.
         </p>
       </header>
-
-      <div className="rounded-2xl border border-dashed border-slate-700 bg-slate-900/50 p-8 text-sm text-slate-300">
-        Form UI will live here. We will wire this to `/api/posts/create` and
-        `/api/posts/publish` in the next step.
-      </div>
+      <PostEditorShell mode="create" categories={categories} tags={tags} />
     </section>
   );
 }

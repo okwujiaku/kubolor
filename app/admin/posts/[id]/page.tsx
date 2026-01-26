@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { PostEditor } from "@/components/admin/PostEditor";
+
+export const dynamic = "force-dynamic";
 
 type AdminEditPostPageProps = {
   params: {
@@ -10,15 +13,19 @@ type AdminEditPostPageProps = {
 export default async function AdminEditPostPage({
   params,
 }: AdminEditPostPageProps) {
-  const post = await prisma.post
-    .findUnique({
-      where: { id: params.id },
-      include: { category: true, tags: { include: { tag: true } } },
-    })
-    .catch((error) => {
-      console.error("Admin edit post fetch failed:", error);
-      return null;
-    });
+  const [post, categories, tags] = await Promise.all([
+    prisma.post
+      .findUnique({
+        where: { id: params.id },
+        include: { category: true, tags: { include: { tag: true } } },
+      })
+      .catch((error) => {
+        console.error("Admin edit post fetch failed:", error);
+        return null;
+      }),
+    prisma.category.findMany({ orderBy: { name: "asc" } }),
+    prisma.tag.findMany({ orderBy: { name: "asc" } }),
+  ]);
 
   if (!post) {
     return (
@@ -34,7 +41,7 @@ export default async function AdminEditPostPage({
 
   return (
     <section className="space-y-6">
-      <header>
+      <header className="space-y-2">
         <h2 className="font-horizon text-xl font-semibold text-white">
           Edit post
         </h2>
@@ -42,11 +49,26 @@ export default async function AdminEditPostPage({
           Update your content, adjust metadata, and publish when ready.
         </p>
       </header>
-
-      <div className="rounded-2xl border border-dashed border-slate-700 bg-slate-900/50 p-8 text-sm text-slate-300">
-        Editing <strong>{post.title}</strong>. Form UI will be connected to
-        `/api/posts/update` and `/api/posts/publish`.
-      </div>
+      <PostEditor
+        mode="edit"
+        categories={categories}
+        tags={tags}
+        initialData={{
+          id: post.id,
+          title: post.title,
+          slug: post.slug,
+          excerpt: post.excerpt ?? "",
+          content: post.content,
+          featuredImage: post.featuredImage ?? "",
+          metaTitle: post.metaTitle ?? "",
+          metaDescription: post.metaDescription ?? "",
+          categoryId: post.categoryId,
+          tagIds: post.tags.map((tag) => tag.tagId),
+          publishedAt: post.publishedAt
+            ? post.publishedAt.toISOString().slice(0, 16)
+            : "",
+        }}
+      />
     </section>
   );
 }
