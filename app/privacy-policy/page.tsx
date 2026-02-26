@@ -1,9 +1,6 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import { SHOW_POLICY_PAGES } from "@/lib/demo";
 
 export default function PrivacyPolicyPage() {
-  if (!SHOW_POLICY_PAGES) notFound();
   return (
     <main className="mx-auto w-full max-w-4xl px-6 py-16">
       <div className="space-y-6">
