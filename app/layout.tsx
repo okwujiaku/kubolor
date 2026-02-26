@@ -223,30 +223,6 @@ export default async function RootLayout({
                     <ul className="space-y-2 text-sm text-slate-600">
                       <li>
                         <Link
-                          href="/privacy-policy"
-                          className="transition-colors hover:text-blue-600"
-                        >
-                          Privacy Policy
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/terms-of-service"
-                          className="transition-colors hover:text-blue-600"
-                        >
-                          Terms of Service
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/refund-policy"
-                          className="transition-colors hover:text-blue-600"
-                        >
-                          Refund Policy
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
                           href="/support"
                           className="transition-colors hover:text-blue-600"
                         >
